@@ -1,0 +1,39 @@
+name: RAG CI Pipeline
+
+on:
+  push:
+    paths:
+      - 'k8s.txt'
+      - 'app.py'
+      - 'embed.py'
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install fastapi uvicorn chromadb requests
+
+      - name: Rebuild embeddings
+        run: python embed.py
+
+      - name: Start API in mock mode
+        run: |
+          USE_MOCK_LLM=1 uvicorn app:app --host 0.0.0.0 --port 8000 &
+          sleep 5
+
+      - name: Run semantic tests
+        run: python semantic_test.py
+
+      - name: Success
+        run: echo "✅ All tests passed! RAG quality maintained."
