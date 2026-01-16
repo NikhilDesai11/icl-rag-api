@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rag-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rag-api
+  template:
+    metadata:
+      labels:
+        app: rag-api
+    spec:
+      containers:
+      - name: rag-api-container
+        image: rag-app
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+        env:
+        - name: OLLAMA_HOST
+          value: "host.docker.internal:11434"
