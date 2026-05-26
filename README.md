@@ -201,7 +201,7 @@ This structure scales much better than a single root-level file. New knowledge c
 ```text
 docs/
 ├── k8s.txt
-└── nextwork.txt
+└── icl.txt
 ```
 
 Rebuild embeddings with:
@@ -219,7 +219,7 @@ icl-rag-api/
 │       └── ci.yml
 ├── docs/
 │   ├── k8s.txt
-│   └── nextwork.txt
+│   └── icl.txt
 ├── app.py
 ├── embed.py
 ├── embed_docs.py
